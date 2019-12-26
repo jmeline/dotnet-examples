@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace ExpressionTreesAndRuleEngine.SampleRules
 {
-    public class PreCompiledRules
+    public static class PreCompiledRules
     {
         
         ///
@@ -18,11 +18,15 @@ namespace ExpressionTreesAndRuleEngine.SampleRules
                 .Select(rule =>
                 {
                     var genericType = Expression.Parameter(typeof(T));
-                    var key = Expression.Property(genericType, rule.ComparisonPredicate);
-                    var propertyType = typeof(T).GetProperty(rule.ComparisonPredicate)?.PropertyType;
-                    var value = Expression.Constant(Convert.ChangeType(rule.ComparisonValue, propertyType));
-                    var binaryExpression = Expression.MakeBinary(rule.ComparisonOperator, key, value);
-
+                    var key = Expression.Property(genericType, rule.Predicate);
+                    var propertyType = typeof(T).GetProperty(rule.Predicate)?.PropertyType;
+                    var value = Expression.Constant(Convert.ChangeType(rule.Value, propertyType));
+                    ExpressionType comparisonOperator; 
+                    if (!Enum.TryParse(rule.Operator, out comparisonOperator))
+                    {
+                        throw new Exception("Crap happened");
+                    }
+                    var binaryExpression = Expression.MakeBinary(comparisonOperator, key, value);
                     return Expression.Lambda<Func<T, bool>>(binaryExpression, genericType).Compile();
                 })
                 .ToList();

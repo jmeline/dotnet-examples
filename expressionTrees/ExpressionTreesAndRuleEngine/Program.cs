@@ -1,33 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Threading.Tasks;
+using ExpressionTreesAndRuleEngine.DataAccess;
 using ExpressionTreesAndRuleEngine.SampleRules;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ExpressionTreesAndRuleEngine
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
             // build sql database
-            using var connect = new SQLiteConnection("Data Source=../../../MyRuleDatabase.sqlite");
-            connect.Open();
-            CreateRulesTable(connect);
-            InsertDummyData(connect);
+            // CreateRulesTable(connect);
+            // InsertDummyData(connect);
             
-            connect.
-            
-            var cmd = new SQLiteCommand("select * from rules", connect);
-            var result = cmd.ExecuteReader();
-            while (result.Read())
+            var serviceProvider = SetupServiceProvider();
+            var dbAccess = serviceProvider.GetService<IDataAccess>();
+            var rules = dbAccess.LoadRules();
+            var funcs = PreCompiledRules.CompileRule<Car>(rules);
+
+            var cars = new List<Car>
             {
-                Console.WriteLine(string.Format($"Id: {result.GetString(0)}"));
-                Console.WriteLine(string.Format($"Predicate: {result.GetString(1)}"));
-                Console.WriteLine(string.Format($"Operator: {result.GetString(2)}"));
-                Console.WriteLine(string.Format($"Value: {result.GetString(3)}"));
-            }
+                new Car {Make = "El Diablo", Model = "Torch", Year = 2013},
+                new Car {Make = "El Diablo", Model = "Torche", Year = 2012},
+                new Car {Make = "El Diabl", Model = "Torch", Year = 2012},
+                new Car {Make = "El Diabl", Model = "Torch", Year = 2010}
+            };
+            
+            var results = cars
+                .Where(model => funcs
+                    .All(f => f(model)));
+        }
+
+        private static ServiceProvider SetupServiceProvider()
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json",
+                    optional: true,
+                    reloadOnChange: true)
+                .Build();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(configuration);
+            services.AddTransient<IDataAccess, SqliteDataAccess>();
+            services.Configure<AppSettings>(x =>
+                x.ConnectionString = configuration.GetConnectionString("source"));
+            return services.BuildServiceProvider();
         }
 
         private static void InsertDummyData(SQLiteConnection connect)
@@ -45,9 +70,8 @@ namespace ExpressionTreesAndRuleEngine
             {
                 command.ExecuteReader();
             }
-            catch (SQLiteException e)
+            catch (SQLiteException)
             {
-                Console.WriteLine(e);
             }
         }
 
@@ -55,17 +79,16 @@ namespace ExpressionTreesAndRuleEngine
         {
             string sql = $@"
                 CREATE TABLE IF NOT EXISTS Rules (
-                id INTEGER PRIMARY KEY,
-                predicate VARCHAR(50) NOT NULL,
-                operator VARCHAR(50) NOT NULL,
-                value VARCHAR(50) NOT NULL)";
+                id         INT PRIMARY KEY,
+                predicate  VARCHAR(50) NOT NULL,
+                operator   VARCHAR(50) NOT NULL,
+                value      VARCHAR(50) NOT NULL)";
             try
-            {
+            { 
                 new SQLiteCommand(sql, connect).ExecuteReader();
             }
-            catch (SQLiteException ex)
+            catch (SQLiteException)
             {
-                Console.WriteLine("Attempted to create table: " + ex.Message);
             }
         }
     }

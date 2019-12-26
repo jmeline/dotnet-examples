@@ -1,3 +1,4 @@
+using System;
 using System.Linq.Expressions;
 
 namespace ExpressionTreesAndRuleEngine.SampleRules
@@ -9,19 +10,10 @@ namespace ExpressionTreesAndRuleEngine.SampleRules
     {
         ///
         /// Denotes the rules predictate (e.g. Name); comparison operator(e.g. ExpressionType.GreaterThan); value (e.g. "Cole")
-        /// 
-        public string ComparisonPredicate { get; set; }
-        public ExpressionType ComparisonOperator { get; set; }
-        public string ComparisonValue { get; set; }
-
-        /// 
-        /// The rule method that 
-        /// 
-        public Rule(string comparisonPredicate, ExpressionType comparisonOperator, string comparisonValue)
-        {
-            ComparisonPredicate = comparisonPredicate;
-            ComparisonOperator = comparisonOperator;
-            ComparisonValue = comparisonValue;
-        }
+        ///
+        public int Id { get; set; }
+        public string Predicate { get; set; }
+        public string Operator { get; set; }
+        public string Value { get; set; }
     }
 }

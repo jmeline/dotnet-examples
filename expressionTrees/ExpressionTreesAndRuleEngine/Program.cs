@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using ExpressionTreesAndRuleEngine.DataAccess;
+using ExpressionTreesAndRuleEngine.Infrastructure;
 using ExpressionTreesAndRuleEngine.SampleRules;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using System.Linq.Dynamic.Core;
 
 namespace ExpressionTreesAndRuleEngine
 {
@@ -20,8 +18,9 @@ namespace ExpressionTreesAndRuleEngine
             // CreateRulesTable(connect);
             // InsertDummyData(connect);
             
-            var serviceProvider = SetupServiceProvider();
-            var dbAccess = serviceProvider.GetService<IDataAccess>();
+            var provider = new ServiceProviderGenerator().SetupServiceProvider();
+            
+            var dbAccess = provider.GetService<IDataAccess>();
             var rules = dbAccess.LoadRules();
             var funcs = PreCompiledRules.CompileRule<Car>(rules);
 
@@ -32,27 +31,24 @@ namespace ExpressionTreesAndRuleEngine
                 new Car {Make = "El Diabl", Model = "Torch", Year = 2012},
                 new Car {Make = "El Diabl", Model = "Torch", Year = 2010}
             };
+
+            
+            var IsCoolCar = (Func<Car, bool>) DynamicExpressionParser
+                .ParseLambda(
+                    typeof(Car),
+                    typeof(bool),
+                    "Make == @0 && Year == @1",
+                    "El Diablo",
+                    2012)
+                .Compile();
+            Console.WriteLine(cars
+                .Where(IsCoolCar)
+                .Select(x => $"{x.Make} {x.Model} {x.Year}"));
+            // Console.WriteLine(func(cars.First()));
             
             var results = cars
                 .Where(model => funcs
                     .All(f => f(model)));
-        }
-
-        private static ServiceProvider SetupServiceProvider()
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json",
-                    optional: true,
-                    reloadOnChange: true)
-                .Build();
-
-            var services = new ServiceCollection();
-            services.AddSingleton(configuration);
-            services.AddTransient<IDataAccess, SqliteDataAccess>();
-            services.Configure<AppSettings>(x =>
-                x.ConnectionString = configuration.GetConnectionString("source"));
-            return services.BuildServiceProvider();
         }
 
         private static void InsertDummyData(SQLiteConnection connect)

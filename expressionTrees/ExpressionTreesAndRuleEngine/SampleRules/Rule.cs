@@ -9,7 +9,7 @@ namespace ExpressionTreesAndRuleEngine.SampleRules
     public class Rule
     {
         ///
-        /// Denotes the rules predictate (e.g. Name); comparison operator(e.g. ExpressionType.GreaterThan); value (e.g. "Cole")
+        /// Denotes the rules predicate (e.g. Name); comparison operator(e.g. ExpressionType.GreaterThan); value (e.g. "Cole")
         ///
         public int Id { get; set; }
         public string Predicate { get; set; }

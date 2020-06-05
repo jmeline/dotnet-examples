@@ -1,4 +1,7 @@
+using System;
+using System.Diagnostics;
 using algorithms.Algorithms.Sorting.QuickSort;
+using Algorithms.Utils;
 using Xunit;
 
 namespace Algorithms.AlgorithmTests.Sorting.QuickSort
@@ -8,10 +11,13 @@ namespace Algorithms.AlgorithmTests.Sorting.QuickSort
         [Fact]
         public void TestPivotAsFirstElement()
         {
-            var test = new[] {20, 80, 30, 90, 10, 50, 70};
+            var test = RandomNumberGenerator.GenerateRandomIntArray(100000);
+            Stopwatch stopwatch = Stopwatch.StartNew();
             var sorter = new QuickSortImpl(new PartitionerStart());
             sorter.QuickSort(test, 0, test.Length - 1);
-            Assert.Equal(test, new []{ 10, 20, 30, 50, 70, 80, 90 });
+            stopwatch.Stop();
+            Console.WriteLine("elapsedTime: " + stopwatch.ElapsedMilliseconds);
+
         }
     }
 }

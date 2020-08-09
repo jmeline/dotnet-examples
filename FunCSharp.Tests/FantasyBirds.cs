@@ -7,10 +7,6 @@ namespace FunCSharp.Tests
 {
     public class FantasyBirdsTest
     {
-        private readonly FantasyBirds _fb;
-        
-        public FantasyBirdsTest() => _fb = new FantasyBirds();
-        
         [Fact]
         public void FantasyBird_Applicator()
         {
@@ -180,6 +176,36 @@ namespace FunCSharp.Tests
                 ("100")
                 ("1000")
                 .ShouldBe(("unique", "key", "100", "1000"));
+        }
+        
+        [Fact]
+        public void FantasyBird_GoldFinch()
+        {
+            FantasyBirds.GoldFinch<string, string, string, string> (
+                b => c => $"{b}_{c}")
+                (a => $"*{a}*")
+                ("unique")
+                ("key")
+                .ShouldBe("key_*unique*");
+        }
+        
+        [Fact]
+        public void FantasyBird_HummingBird()
+        {
+            FantasyBirds.HummingBird<string, string, (string, string)>(
+                a => b => a2 => ($"{a}", $"{a2}_{b}"))
+                ("10")
+                ("key")
+                .ShouldBe(("10", "10_key"));
+        }
+        
+        [Theory]
+        [InlineData("10")]
+        [InlineData("sup")]
+        [InlineData("sup1")]
+        public void FantasyBird_Idiot(string value)
+        {
+            FantasyBirds.Idiot(value).ShouldBe(value);
         }
     }
 }

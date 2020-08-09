@@ -14,44 +14,43 @@ namespace FunCSharp.Tests
         [Fact]
         public void FantasyBird_Applicator()
         {
-            _fb.Applicator<int, int>(x => x + 1)(3).ShouldBe(4);
-            _fb.Applicator<double, double>(x => x * x)(3.5).ShouldBe(12.25d);
-            _fb.Applicator<string, double>(x => x != null ? Convert.ToInt32(x) : 0)("10").ShouldBe(10);
+            FantasyBirds.Applicator<int, int>(x => x + 1)(3).ShouldBe(4);
+            FantasyBirds.Applicator<double, double>(x => x * x)(3.5).ShouldBe(12.25d);
+            FantasyBirds.Applicator<string, double>(x => x != null ? Convert.ToInt32(x) : 0)("10").ShouldBe(10);
         }
 
         [Fact]
         public void FantasyBird_Becard()
         {
-            _fb.Becard<int, int, int, int>(x => x * -1)(x => x * 2)(x => x - 1)(3).ShouldBe(-4);
+            FantasyBirds.Becard<int, int, int, int>(x => x * -1)(x => x * 2)(x => x - 1)(3).ShouldBe(-4);
         }
 
         [Fact]
         public void FantasyBird_Blackbird()
         {
-            _fb.BlackBird<int, int, int, int>(x => x * -1)(x => y => x + y)(3)(5).ShouldBe(-8);
+            FantasyBirds.BlackBird<int, int, int, int>(x => x * -1)(x => y => x + y)(3)(5).ShouldBe(-8);
         }
         
         [Fact]
         public void FantasyBird_Bluebird()
         {
-            _fb.Bluebird<int, int, int>(x => x * -1)(x => x + 10)(5)
+            FantasyBirds.Bluebird<int, int, int>(x => x * -1)(x => x + 10)(5)
                .ShouldBe(-15);
         }
 
         [Fact]
         public void FantasyBird_Bluebird_()
         {
-            _fb.Bluebird_<int, int, int, int>(x => y => x * y)(2)(x => x + 1)(2)
+            FantasyBirds.Bluebird_<int, int, int, int>(x => y => x * y)(2)(x => x + 1)(2)
                .ShouldBe(6);
-            _fb.Bluebird_<string, string, string, string>(x => y => $"{x} {y}")("Hello")(x => x.ToUpper())("World")
+            FantasyBirds.Bluebird_<string, string, string, string>(x => y => $"{x} {y}")("Hello")(x => x.ToUpper())("World")
                .ShouldBe("Hello WORLD");
         }
 
         [Fact]
         public void FantasyBird_Bunting()
         {
-            _fb.Bunting<int, int, int, int, int>
-                (x => x * -1)
+            FantasyBirds.Bunting<int, int, int, int, int>(x => x * -1)
                 (x => y => z => x + y + z)
                 (1)
                 (2)
@@ -62,9 +61,7 @@ namespace FunCSharp.Tests
         [Fact]
         public void FantasyBird_Cardinal()
         {
-            _fb
-                .Cardinal<string, string, string>
-                    (str => prefix => prefix + str)
+            FantasyBirds.Cardinal<string, string, string>(str => prefix => prefix + str)
                     ("-")
                     ("birds")
                 .ShouldBe("-birds");
@@ -73,9 +70,7 @@ namespace FunCSharp.Tests
         [Fact]
         public void FantasyBird_Cardinal_()
         {
-            _fb
-                .Cardinal_<int,int,int,int>
-                    (x => y => x - y)
+            FantasyBirds.Cardinal_<int, int, int, int>(x => y => x - y)
                     (x => x + 1)
                     (2)
                     (4)
@@ -85,27 +80,21 @@ namespace FunCSharp.Tests
         [Fact]
         public void FantasyBird_CardinalStar()
         {
-            _fb
-                .CardinalStar<string,string,string,string>
-                    (str => prefix => postfix => prefix + str + postfix)("birds")("!")("-")
+            FantasyBirds.CardinalStar<string, string, string, string>(str => prefix => postfix => prefix + str + postfix)("birds")("!")("-")
                 .ShouldBe("-birds!");
         }
         
         [Fact]
         public void FantasyBird_CardinalStarStar()
         {
-            _fb
-                .CardinalStarStar<string, string, string, string, string>
-                    (a => b => separator => postfix => a + separator + b + postfix)("fantasy")("birds")("!")("-")
+            FantasyBirds.CardinalStarStar<string, string, string, string, string>(a => b => separator => postfix => a + separator + b + postfix)("fantasy")("birds")("!")("-")
                 .ShouldBe("fantasy-birds!");
         }
         
         [Fact]
         public void FantasyBird_Dickcissel()
         {
-            _fb
-                .Dickcissel<string, string, string, string, string>
-                    (prefix => postfix => str => prefix + str + postfix)
+            FantasyBirds.Dickcissel<string, string, string, string, string>(prefix => postfix => str => prefix + str + postfix)
                     ("-")
                     ("!")
                     (x => x.ToUpper())
@@ -116,9 +105,7 @@ namespace FunCSharp.Tests
         [Fact]
         public void FantasyBird_Dove()
         {
-            _fb
-                .Dove<string, string, string, string>
-                (postfix => str => str + postfix)
+            FantasyBirds.Dove<string, string, string, string>(postfix => str => str + postfix)
                 ("!")
                 (x => x.ToUpper())
                 ("birds") 
@@ -128,9 +115,7 @@ namespace FunCSharp.Tests
         [Fact]
         public void FantasyBird_Dovekie()
         {
-            _fb
-                .Dovekie<string, string, string, string, string>
-                (prefix => str => prefix + str)
+            FantasyBirds.Dovekie<string, string, string, string, string>(prefix => str => prefix + str)
                 (x => x.ToUpper())
                 ("fantasy-")
                 (x => x.ToLower())
@@ -140,15 +125,61 @@ namespace FunCSharp.Tests
         [Fact]
         public void FantasyBird_Eagle()
         {
-            _fb
-                .Eagle<string, string, string, string, string>
-                (prefix => str => prefix + str)
+            FantasyBirds.Eagle<string, string, string, string, string>(prefix => str => prefix + str)
                 ("-")
                 (str => postfix => str + postfix)
                 ("birds")
                 ("!")
                 .ShouldBe("-birds!");
         }
+
+        [Fact]
+        public void FantasyBird_EagleBald()
+        {
+            FantasyBirds.EagleBald<string, string, string, string, string, string, string>(x => y => y + x)
+                (a => b => b + a)
+                ("!")
+                ("birds")
+                (a => b => a + b)
+                ("fantasy")("-")
+                .ShouldBe("fantasy-birds!");
+        }
+
+        [Fact]
+        public void FantasyBird_Finch()
+        {
+            FantasyBirds.Finch<int, int, int>(-1)
+            (3)
+            (x => y => x * y)
+            .ShouldBe(-3);
+            
+            FantasyBirds.Finch<string, string, string>("World")
+            ("Hello")
+            (x => y => $"{x} {y}!")
+            .ShouldBe("Hello World!");
+        }
         
+        [Fact]
+        public void FantasyBird_FinchStar()
+        {
+            FantasyBirds.FinchStar<string, string, string, string>(
+                x => y => z => $"{x}-{y}_{z}")
+                ("unique")
+                ("key")
+                ("100")
+                .ShouldBe("100-key_unique");
+        }
+        
+        [Fact]
+        public void FantasyBird_FinchStarStar()
+        {
+            FantasyBirds.FinchStarStar<string, string, string, string, (string, string, string, string)>(
+                a => d => c => b => (a, b, c, d))
+                ("unique")
+                ("key")
+                ("100")
+                ("1000")
+                .ShouldBe(("unique", "key", "100", "1000"));
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
 
         <IsPackable>false</IsPackable>
 
@@ -9,7 +8,9 @@
 
         <RootNamespace>FunCSharp.Tests</RootNamespace>
 
-        <LangVersion>8</LangVersion>
+        <LangVersion>latestmajor</LangVersion>
+
+        <TargetFramework>netcoreapp5.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>

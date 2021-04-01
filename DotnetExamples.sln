@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms", "algorithms\Algorithms.csproj", "{1BBCD82A-C501-4085-9C70-19BA085C39D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunCSharp", "FunCSharp\FunCSharp.csproj", "{51999FA7-9CDF-4AD4-A20D-8E3896C94F44}"

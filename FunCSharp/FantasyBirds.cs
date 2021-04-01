@@ -1,6 +1,4 @@
 using System;
-using System.Reflection.Metadata;
-using Xunit.Sdk;
 
 namespace FunCSharp
 {
@@ -233,12 +231,12 @@ namespace FunCSharp
         /// <summary>
         /// idstar :: (a -> b) -> a -> b
         /// </summary>
-        public Func<TA, TB> IdStar<TA, TB>(Func<TA, TB> f) => f;
+        public static Func<TA, TB> IdStar<TA, TB>(Func<TA, TB> f) => f;
 
         /// <summary>
         /// idstarstar :: (a -> b -> c) -> a -> b -> c
         /// </summary>
-        public Func<TA, Func<TB, TC>> 
+        public static Func<TA, Func<TB, TC>> 
             IdStarStar<TA, TB, TC>
             (
                 Func<TA, Func<TB, TC>> f
@@ -247,42 +245,60 @@ namespace FunCSharp
         /// <summary>
         /// jalt :: (a -> c) -> a -> b -> c
         /// </summary>
-        public Func<TA, Func<TB, TC>> Jalt<TA, TB, TC>(Func<TA, TC> f)
+        public static Func<TA, Func<TB, TC>> Jalt<TA, TB, TC>(Func<TA, TC> f)
             => a => b => f(a);
         
         /// <summary>
         /// jalt_ :: (a -> b -> d) -> a -> b -> c -> d
         /// </summary>
-        public Func<TA, Func<TB, Func<TC, TD>>> Jalt_<TA, TB, TC, TD>(Func<TA, Func<TB, TD>> f)
+        public static Func<TA, Func<TB, Func<TC, TD>>> Jalt_<TA, TB, TC, TD>(Func<TA, Func<TB, TD>> f)
             => a => b => c => f(a)(b);
 
         /// <summary>
         /// ?? Not sure, need to double check this function
         /// jay :: (a -> b -> b) -> a -> b -> a -> b
         /// </summary>
-        public Func<TA, Func<TB, Func<TA, TB>>> Jay<TA, TB>(Func<TA, Func<TB, TB>> f)
+        public static Func<TA, Func<TB, Func<TA, TB>>> Jay<TA, TB>(Func<TA, Func<TB, TB>> f)
             => a => b => a => f(a)(b);
 
         /// <summary>
         /// kestrel :: a -> b -> a
         /// </summary>
-        public Func<TB, TA> Kestrel<TA, TB>(TA a) => b => a;
+        public static Func<TB, TA> Kestrel<TA, TB>(TA a) => b => a;
         
         /// <summary>
         /// kite :: a -> b -> b
         /// </summary>
-        public Func<TB, TB> Kite<TA, TB>(TA a) => b => b;
+        public static Func<TB, TB> Kite<TA, TB>(TA a) => b => b;
 
         /// <summary>
         /// owl :: ((a -> b) -> a) -> (a -> b) -> b
         /// </summary>
-        public Func<Func<TA, TB>, TB> 
+        public static Func<Func<TA, TB>, TB> 
             Owl<TA, TB>(Func<Func<TA, TB>, TA> f) => g => g(f(g));
-
-        /*
         
-        phoenix :: (b -> c -> d) -> (a -> b) -> (a -> c) -> a -> d
-        psi :: (b -> b -> c) -> (a -> b) -> a -> a -> c
+        /// <summary>
+        /// phoenix :: (b -> c -> d) -> (a -> b) -> (a -> c) -> a -> d
+        /// </summary>
+        public static Func<Func<TA, TB>, Func<Func<TA, TC>, Func<TA, TD>>>
+            Phoenix<TA, TB, TC, TD>(Func<TB, Func<TC, TD>> f) 
+                => g 
+                    => k 
+                        => a => f(g(a))(k(a));
+
+        /// <summary>
+        // psi :: (b -> b -> c) -> (a -> b) -> a -> a -> c
+        // says ^ on the github readme, but the example demonstrates the below signature
+        // psi :: (a -> b -> c) -> (c -> d) -> a -> b -> d
+        /// </summary>
+        public static Func<Func<TC, TD>, Func<TA, Func<TB, TD>>>
+            Psi<TA, TB, TC, TD>(Func<TA, Func<TB, TC>> f)
+            => g
+                => a
+                    => b => g(f(a)(b));
+
+/*
+       
         quacky :: a -> (a -> b) -> (b -> c) -> c
         queer :: (a -> b) -> (b -> c) -> a -> c
         quirky :: (a -> b) -> a -> (b -> c) -> c

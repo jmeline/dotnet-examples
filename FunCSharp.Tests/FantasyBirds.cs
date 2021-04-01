@@ -207,5 +207,28 @@ namespace FunCSharp.Tests
         {
             FantasyBirds.Idiot(value).ShouldBe(value);
         }
+
+        [Fact]
+        public void FantasyBird_IdStar() =>
+            FantasyBirds.IdStar<string, string>(
+                a => $"{a} World!")("Hello").ShouldBe("Hello World!");
+
+        [Fact]
+        public void FantasyBird_IdStarStar() =>
+            FantasyBirds
+                .IdStarStar<string, string, string>(
+                    x => y => $"{x} {y}!")
+                ("Hello")
+                ("World")
+                .ShouldBe("Hello World!");
+
+        [Fact]
+        public void FantasyBird_Psi() =>
+            FantasyBirds.Psi<int, int, int, int>
+                    (x => y => x + y)
+                (x => x * -1)
+                (3)
+                (5)
+                .ShouldBe(-8);
     }
 }

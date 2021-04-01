@@ -8,9 +8,9 @@
 
         <RootNamespace>FunCSharp.Tests</RootNamespace>
 
-        <LangVersion>latestmajor</LangVersion>
+        <LangVersion>8</LangVersion>
 
-        <TargetFramework>netcoreapp5.0</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>

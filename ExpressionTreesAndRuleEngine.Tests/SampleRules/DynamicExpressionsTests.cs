@@ -40,18 +40,18 @@ namespace ExpressionTreesAndRuleEngine.Tests.SampleRules
             Cars.Where(func3).Count().ShouldBe(139);
             //Cars.Where(func4).Count().ShouldBe(89);
         }
-
-        [Fact]
-        public void ManyFuncsTest()
-        {
-            var funcs = new List<Func<CarData, bool>>
-            {
-                CreateFunc("NumberOrDoors == @0 or NumberOfCylinders > @1", "two", ""),
-                CreateFunc("EngineSize <= @0 or Height > @1", "48", "100"),
-                CreateFunc("EngineSize <= @0 or Height > @1", "48", "100")
-            };
         
-        }
+        // [Fact]
+        // public void ManyFuncsTest()
+        // {
+        //     var funcs = new List<Func<CarData, bool>>
+        //     {
+        //         CreateFunc("NumberOrDoors == @0 or NumberOfCylinders > @1", "two", ""),
+        //         CreateFunc("EngineSize <= @0 or Height > @1", "48", "100"),
+        //         CreateFunc("EngineSize <= @0 or Height > @1", "48", "100")
+        //     };
+        //
+        // }
         private List<CarData> LoadSampleData()
         {
             return File.ReadAllLines(@"../../../car_data.csv")

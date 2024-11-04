@@ -35,6 +35,8 @@ public class WeatherForecastController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(WeatherForecast data)
     {
+        var connString =
+            "Endpoint=sb://weatherdemo-sbn.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=";
         var client = new ServiceBusClient(connString);
         var sender = client.CreateSender("add-weather-data");
         var body = JsonSerializer.Serialize(data);

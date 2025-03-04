@@ -5,7 +5,7 @@ namespace FunCSharp
     /// <summary>
     /// Fantasy Birds based off https://github.com/fantasyland/fantasy-birds
     /// </summary>
-    public class FantasyBirds
+    public static class FantasyBirds
     {
         /// <summary>
         /// applicator :: (a -> b) -> a -> b

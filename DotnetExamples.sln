@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-#
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms", "algorithms\Algorithms.csproj", "{1BBCD82A-C501-4085-9C70-19BA085C39D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunCSharp", "FunCSharp\FunCSharp.csproj", "{51999FA7-9CDF-4AD4-A20D-8E3896C94F44}"
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceBusExample", "Azure\ServiceBusExample\ServiceBusExample.csproj", "{0BEF2D4E-B5FA-462D-8173-65A062153F34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherDataProcessor", "Azure\WeatherDataProcessor\WeatherDataProcessor.csproj", "{817781C5-428B-4AB7-BA8C-6ACBCD292972}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlWithStrawberryShake", "GraphQlWithStrawberryShake\GraphQlWithStrawberryShake.csproj", "{1EB08175-F581-4B62-8871-652AFAAD1674}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,5 +69,9 @@ Global
 		{817781C5-428B-4AB7-BA8C-6ACBCD292972}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{817781C5-428B-4AB7-BA8C-6ACBCD292972}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{817781C5-428B-4AB7-BA8C-6ACBCD292972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EB08175-F581-4B62-8871-652AFAAD1674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EB08175-F581-4B62-8871-652AFAAD1674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EB08175-F581-4B62-8871-652AFAAD1674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EB08175-F581-4B62-8871-652AFAAD1674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
